@@ -1,0 +1,180 @@
+<!--<app-nav-menu></app-nav-menu>-->
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <label id="search"><i class="bi bi-funnel-fill"></i> Filter :</label>
+      <select id="search" name="searchInput" class="form-select w-25" [(ngModel)]="searchInput">
+        <option *ngFor="let s of stateArr">{{s}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col">
+      <h3>
+        PR List:
+      </h3>
+
+
+      <!-- Table start -->
+      <table class="shadow table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">PR Number</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ppr of prList | filter: searchInput | paginate: { itemsPerPage: 5, currentPage: page }">
+            <td scope="row">{{ppr.prid}}</td>
+            <td scope="row">{{ppr.prnumber}}</td>
+            <td scope="row">{{ppr.description}}</td>
+            <td>
+              <button class="m-1 btn btn-outline-primary" (click)="onView(ppr.prid)"> <i class="bi bi-eye-fill"></i> View</button>
+
+              <!--<button *ngIf="hasAccess" (click)="wantDelete(ppr.prid)" type="button" class="btn btn-group-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#DPR"><i class="bi bi-trash-fill"></i> Delete</button>-->
+              <button *ngIf="hasAccess" (click)="wantDelete(ppr.prid)" type="button" class="btn btn-group-sm btn-outline-danger"><i class="bi bi-trash-fill"></i> Delete</button>
+
+              <!-- Modal Delete -->
+              <div class="modal fade" id="DPR" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="DPR">Delete PR</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <!--...-->
+                      <h5>Are you sure?</h5>
+                      <!-- ... -->
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                      <button  type="button" class="btn btn-danger">Yes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Table end -->
+
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- Pagination -->
+  <nav aria-label="Page navigation" class="text-center">
+    <div class="has-text-centered">
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+  </nav>
+  <hr />
+  <!-- Pagination ends -->
+  <!-- list of other pr's -->
+  <!--<div>
+    <div class="row">
+      <div class="col">
+        <h3>
+          InProgress PR's:
+        </h3>-->
+  <!-- Table start -->
+  <!--<table class="shadow table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">PR Number</th>
+        <th scope="col">Description</th>
+        <th scope="col">View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ippr of prListInProgress">
+        <td scope="row">{{ippr.prid}}</td>
+        <td scope="row">{{ippr.prnumber}}</td>
+        <td scope="row">{{ippr.description}}</td>
+        <td>
+          <button class="m-1 btn btn-outline-primary" (click)="onView(ippr.prid)"> <i class="bi bi-eye-fill"></i> View</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>-->
+  <!-- Table end -->
+  <!--</div>
+  </div>
+
+
+  <div class="row">
+    <div class="col">
+      <h3>
+        Pending Verification PR's:
+      </h3>-->
+  <!-- Table start -->
+  <!--<table class="shadow table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">PR Number</th>
+        <th scope="col">Description</th>
+        <th scope="col">View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vppr of prListVerification">
+        <td scope="row">{{vppr.prid}}</td>
+        <td scope="row">{{vppr.prnumber}}</td>
+        <td scope="row">{{vppr.description}}</td>
+        <td>
+          <button class="m-1 btn btn-outline-primary" (click)="onView(vppr.prid)"> <i class="bi bi-eye-fill"></i> View</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>-->
+  <!-- Table end -->
+  <!--</div>
+  </div>
+
+
+  <div class="row">
+    <div class="col">
+      <h3>
+        Closed PR's:
+      </h3>-->
+  <!-- Table start -->
+  <!--<table class="shadow table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">PR Number</th>
+        <th scope="col">Description</th>
+        <th scope="col">View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cppr of prListClose">
+        <td scope="row">{{cppr.prid}}</td>
+        <td scope="row">{{cppr.prnumber}}</td>
+        <td scope="row">{{cppr.description}}</td>
+        <td>
+          <button class="m-1 btn btn-outline-primary" (click)="onView(cppr.prid)"> <i class="bi bi-eye-fill"></i> View</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>-->
+  <!-- Table end -->
+  <!--</div>
+    </div>
+  </div>-->
+
+
+
+ 
+
+
+</div>

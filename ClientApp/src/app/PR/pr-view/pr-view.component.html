@@ -1,0 +1,223 @@
+<div class="container bg-light">
+
+  <div class="row mt-3">
+    <div class="col">
+      <h4>
+        {{prListById.prnumber}}
+      </h4>
+      <span>
+        {{prListById.description}}
+      </span>
+    </div>
+    <div class="col text-end">
+      <button type="submit" class="btn btn-outline-primary btn-group-sm" [routerLink]="['/prlist']"><i class="bi bi-arrow-left-circle-fill"></i> Back</button>
+
+    </div>
+  </div>
+
+  <div class="row text-end">
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col">
+      <!-- Button trigger modal -->
+      <button *ngIf="hasEditAccess" type="button" class="btn btn-group-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ModalEdit">
+        <i class="bi bi-pen-fill" style=""></i> Edit
+      </button>
+
+    </div>
+  </div>
+
+  <div class="row text-center mt-3">
+    <div class="col">
+      <h5>Summary:</h5>
+      </div>
+    <div class="col-7">
+      <hr />
+      <span *ngIf="sF1">
+        <i class="bi bi-arrow-bar-right" style="font-size:20px"></i><button class="btn btn-success" >New</button>
+      </span>
+      <span *ngIf="sF2">
+        <i class="bi bi-arrow-bar-right" style="font-size:20px"></i><button class="btn btn-warning">Problem Fixing</button>
+      </span>
+      <span *ngIf="sF3">
+        <i class="bi bi-arrow-bar-right" style="font-size:20px"></i><button class="btn btn-info">Verification</button>
+      </span>
+      <span *ngIf="sF4">
+        <i class="bi bi-arrow-bar-right" style="font-size:20px"></i><button class="btn btn-secondary">Closed</button>
+      </span>
+      <hr />
+    </div>
+    <div class="col"></div>
+  </div>
+
+
+  <div class="row mt-3">
+    <h4>PR</h4>
+    <hr />
+    <div class="col">
+    </div>
+    <div class="col">
+
+      <p class="row">Number: {{prListById.prnumber}}</p>
+      <p class="row">Description: {{prListById.description}}</p>
+      <p class="row">Status: {{prListById.status}}</p>
+      <p class="row">Originator: {{prListById.originator}}</p>
+      <p class="row">Date Originated: {{prListById.dateoriginated | date:'full'}}</p>
+      <p class="row">Date Completed: {{prListById.datecompleted | date:'full'}}</p>
+      <p class="row">Impact On Customer: {{prListById.priority}}</p>
+
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <hr />
+  <h4>
+    PR Details:
+  </h4>
+  <div class="row mt-3">
+    <div class="col"></div>
+    <div class="col">
+
+      <p class="row">Problem Fixer: {{prListById.prfixer}}</p>
+      <p class="row">Problem Introducer: {{prListById.printroducer}}</p>
+      <p class="row">Project: {{prListById.project}}</p>
+      <p class="row">Detailed Description: {{prListById.ddescription}}</p>
+      <p class="row">ETA Fixing: {{prListById.etafixing | date:'fullDate'}}</p>
+      <p *ngIf="hasFile" class="row">Attachment: <a id="fd" href="javascript:;" (click)="onDownloadFile(filePath)" ms-3><i class="bi bi-download"></i> File</a></p>
+      <p class="row">
+        Comments:
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-group-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ModalComment">
+          <i class="bi bi-chat-fill"></i> Comments
+        </button>
+      </p>
+
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <!-- Vertically centered scrollable modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalEdit" tabindex="-1" aria-labelledby="ModalEditLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="ModalEditLabel">Edit {{prListById.prnumber}}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- ... -->
+            <div class="mb-3">
+              <label for="Input1" class="form-label">PR Number:</label>
+              <input type="text" class="form-control" id="Input1" placeholder={{prListById.prnumber}} disabled>
+            </div>
+            <div class="mb-3">
+              <label for="Textarea1" class="form-label">Description:</label>
+              <textarea class="form-control" [(ngModel)]="prUpdate.description" name="description" id="Textarea1" rows="2" placeholder={{prListById.description}}></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="Input2" class="form-label">Status:</label>
+
+              <select class="form-select" [(ngModel)]="prUpdate.status" name="status">
+                <option readonly value="">Choose..</option>
+                <option *ngFor="let st of state" value="{{st}}">{{st}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="Input3" class="form-label">Originator:</label>
+              <input type="text" class="form-control" [(ngModel)]="prUpdate.originator" name="originator" id="Input3" disabled>
+            </div>
+
+            <div class="mb-3">
+              <label for="Input5" class="form-label">Date Completed:</label>
+              <input type="date" class="form-control" [(ngModel)]="prUpdate.datecompleted" name="datecompleted" id="Input5">
+            </div>
+            <div class="mb-3">
+              <label for="Input6" class="form-label">Impact On Customer:</label>
+              <select class="form-select" [(ngModel)]="prUpdate.priority" name="priority">
+
+                <option *ngFor="let il of impact">{{il}}</option>
+              </select>
+            </div>
+
+            <hr />
+            <h4>PR Details</h4>
+            <div class="mb-3">
+              <label for="Input7" class="form-label">PR Fixer:</label>
+              <select class="form-select" [(ngModel)]="prUpdate.prfixer" name="prfixer">
+                <option *ngFor="let devl of devList">{{devl.username}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="Input8" class="form-label">Problem Introducer:</label>
+              <input type="text" class="form-control" id="Input8" [(ngModel)]="prUpdate.printroducer" name="printroducer" disabled>
+            </div>
+            <div class="mb-3">
+              <label for="Input9" class="form-label">Project:</label>
+              <select class="form-select" [(ngModel)]="prUpdate.project" name="project">
+                <option *ngFor="let prjl of projectList">{{prjl.project}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="Textarea2" class="form-label">Detailed Description:</label>
+              <textarea class="form-control" id="Textarea2" rows="2" [(ngModel)]="prUpdate.ddescription" name="ddescription"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="Input10" class="form-label">ETA Fixing:</label>
+              <input type="date" class="form-control" id="Input10" [(ngModel)]="prUpdate.etafixing" name="etafixing">
+            </div>
+            <div class="mb-3">
+              <label for="Input11" class="form-label">Attachment:</label>
+              <input type="file" (change)="handleUpload($event)" class="form-control" id="Input11" name="file" [multiple]="false" accept=".zip" placeholder="">
+              <span class="text-warning"><i class="bi bi-info-circle"></i> Attachment can be empty.</span>
+            </div>
+
+            <!-- ... -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button"  (click)="onUpdate(prUpdate)" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  <!-- Vertically centered scrollable modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalComment" tabindex="-1" aria-labelledby="ModalCommentLabel" aria-hidden="true">
+      <div class="modal-dialog  modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="ModalCommentLabel">Comments</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div *ngIf="comByPr.length == 0">...</div>
+            <div *ngFor="let coms of comByPr.reverse() | slice: 0:4">
+              <div class="alert alert-primary">
+                <p>From: {{coms.originator}}</p>
+                <p>Comment: {{coms.statement}}</p>
+                <span style="font-size:12px">Date: {{coms.commenton | date:'full' }}</span>
+              </div>
+              
+            </div>
+            <form>
+              <div class="mb-3">
+                <label for="Textarea3" class="form-label">Comment:</label>
+                <textarea class="form-control" id="Textarea3" rows="2" placeholder="" name="statement" [(ngModel)]="com.statement"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button (click)="onComment(com)" type="button" class="btn btn-primary">Save Comment</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>

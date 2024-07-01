@@ -1,0 +1,93 @@
+<!--<app-nav-menu></app-nav-menu>-->
+
+<div class="container">
+  <div class="row">
+    <h4>New PR</h4>
+    <!-- ... -->
+    <form [formGroup]="prcreate">
+      <div class="mb-3 mt-3">
+        <label for="Input1" class="form-label">PR Number:</label>
+        <input type="text" class="form-control" id="Input1" placeholder="" name="prnumber" [(ngModel)]="prObj.prnumber" [ngModelOptions]="{standalone: true}" disabled>
+      </div>
+      <div class="mb-3">
+        <label for="Textarea1" class="form-label">Description:</label>
+        <textarea class="form-control" formControlName="desc" id="Textarea1" rows="2" placeholder="" name="description" [(ngModel)]="prObj.description" ></textarea>
+        <span *ngIf="prcreate.get('desc')!.invalid && prcreate.get('desc')!.touched" class="text-danger"><i class="bi bi-info-circle"></i> description cannot be empty.</span>
+
+      </div>
+      <div class="mb-3">
+        <label for="Input2" class="form-label">Status:</label>
+        <input type="text" class="form-control" id="Input2" placeholder="" name="status" [(ngModel)]="prObj.status" [ngModelOptions]="{standalone: true}" disabled>
+
+      </div>
+      <div class="mb-3">
+        <label for="Input3" class="form-label">Originator:</label>
+        <input type="text" class="form-control" id="Input3" placeholder="" name="originator" [(ngModel)]="prObj.originator" [ngModelOptions]="{standalone: true}" disabled>
+      </div>
+      <div class="mb-3">
+        <label for="Input4" class="form-label">Date Originated:</label>
+        <input type="text" class="form-control" id="Input4" placeholder="" name="dateoriginated" [(ngModel)]="prObj.dateoriginated" [ngModelOptions]="{standalone: true}" disabled>
+      </div>
+      <div class="mb-3">
+        <label for="select1" class="form-label">Impact On Customer:</label>
+        <select formControlName="prior" class="form-select" [(ngModel)]="prObj.priority" name="priority">
+          <option selected hidden>Choose...</option>
+          <option *ngFor="let prty of priority" name="priority">{{prty}}</option>
+        </select>
+        <span *ngIf="prcreate.get('prior')!.invalid && prcreate.get('prior')!.touched" class="text-danger"><i class="bi bi-info-circle"></i> Impact cannot be empty.</span>
+      </div>
+
+
+      <h4>PR Details</h4>
+      <hr />
+      <div class="mb-3">
+        <label for="Input7" class="form-label">PR Fixer:</label>
+        <select formControlName="fixer" class="form-select" [(ngModel)]="prObj.prfixer" name="prfixer">
+          <option readonly selected hidden>Choose...</option>
+          <option *ngFor="let dev of devObj" name="prfixer">{{dev.username}}</option>
+        </select>
+        <span *ngIf="prcreate.get('fixer')!.invalid && prcreate.get('fixer')!.touched" class="text-danger"><i class="bi bi-info-circle"></i> PR fixer cannot be empty.</span>
+      </div>
+      <div class="mb-3">
+        <label for="Input8" class="form-label">Problem Introducer: :</label>
+        <select formControlName="introducer" class="form-select" [(ngModel)]="prObj.printroducer" name="printroducer">
+          <option readonly selected hidden>Choose...</option>
+          <option *ngFor="let dev of devObj" name="printroducer">{{dev.username}}</option>
+        </select>
+        <span *ngIf="prcreate.get('introducer')!.invalid && prcreate.get('introducer')!.touched" class="text-danger"><i class="bi bi-info-circle"></i> PR introducer cannot be empty.</span>
+      </div>
+      <div class="mb-3">
+        <label for="Input9" class="form-label">Project:</label>
+        <select formControlName="proj" class="form-select" [(ngModel)]="prObj.project" name="project">
+          <option readonly selected hidden>Choose...</option>
+          <option *ngFor="let prj of projectObj" name="project">{{prj.project}}</option>
+        </select>
+        <span *ngIf="prcreate.get('proj')!.invalid && prcreate.get('proj')!.touched" class="text-danger"><i class="bi bi-info-circle"></i> Project cannot be empty.</span>
+      </div>
+      <div class="mb-3">
+        <label for="Textarea2" class="form-label">Detailed Description:</label>
+        <textarea formControlName="ddesc" class="form-control" id="Textarea2" rows="2" placeholder="" name="ddescription" [(ngModel)]="prObj.ddescription"></textarea>
+        <span *ngIf="prcreate.get('ddesc')!.invalid && prcreate.get('ddesc')!.touched" class="text-danger"><i class="bi bi-info-circle"></i> Detailed description cannot be empty.</span>
+      </div>
+      <div class="mb-3">
+        <label for="Input10" class="form-label">ETA Fixing:</label>
+        <input  type="date" class="form-control" id="Input10" name="etafixing" [(ngModel)]="prObj.etafixing" placeholder="" [ngModelOptions]="{standalone: true}">
+        <span  class="text-warning"><i class="bi bi-info-circle"></i> If not set, the ETA would be assumed of today.</span>
+      </div>
+      <div class="mb-3">
+        <label for="Input11" class="form-label">Attachment:</label>
+        <input  type="file" (change)="handleUpload($event)" class="form-control" id="Input11" name="file" [multiple]="false" accept=".zip" placeholder="">
+        <span class="text-warning"><i class="bi bi-info-circle"></i> Attachment can be empty.</span>
+      </div>
+    </form>
+    <!-- ... -->
+  </div>
+  <div class="row mt-3">
+    <div class="col"></div>
+    <div class="col text-center">
+      
+      <button type="submit" [disabled]="prcreate.invalid" (click)="onSubmit()" class="btn btn-outline-primary w-50">Submit</button>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="container mb-3">
+  <header class="border rounded shadow" style="background: linear-gradient(to bottom, #ffffff 0%, #ccccff 100%); ">
+    <div class="d-flex justify-content-between py-3">
+      <ul class="nav nav-pills">
+        <!--<li class="nav-item " (click)="isActive = 1" [ngClass]="{'' : isActive == 1}" [routerLinkActive]="['link-active']"><a href="#" class="nav-link" [routerLink]="['/dashboard']" aria-current="page"><i class="bi bi-speedometer"></i> Dashboard</a></li>-->
+        <li class="nav-item" (click)="isActive = 2" [ngClass]="{'' : isActive == 2}" [routerLinkActive]="['link-active']"><a href="#" [routerLink]="['/prlist']" class="nav-link"><i class="bi bi-file-text"></i> All PR</a></li>
+        <li *ngIf="hasAccess" (click)="isActive = 3" [ngClass]="{'' : isActive == 3}" class="nav-item" [routerLinkActive]="['link-active']"><a href="#" [routerLink]="['/prcreate']" class="nav-link"><i class="bi bi-plus-circle-fill"></i> Create New</a></li>
+        <li *ngIf="isAdmin" (click)="isActive = 3" [ngClass]="{'' : isActive == 3}" class="nav-item" [routerLinkActive]="['link-active']"><a href="#" [routerLink]="['/managment']" class="nav-link"><i class="bi bi-diagram-3-fill"></i> Managment</a></li>
+        <!--<li (click)="isActive = 4" [ngClass]="{'border bg-light shadow-sm rounded-pill' : isActive == 4}" class="nav-item" [routerLinkActive]="['link-active']"><a href="#" [routerLink]="['/adduser']" class="nav-link"><i class="bi bi-person-plus"></i> Users</a></li>
+        <li (click)="isActive = 5" [ngClass]="{'border bg-light shadow-sm rounded-pill' : isActive == 5}" class="nav-item" [routerLinkActive]="['link-active']"><a href="#" [routerLink]="['/request']" class="nav-link"><i class="bi bi-chat-dots"></i> Request</a></li>-->
+
+      </ul>
+      <!--  -->
+      <p class="font-monospace" style="font-size:12px">Welcome,{{logName}}.You are logged in as {{logRole}}.</p>
+      <button type="button" (click)="SignOut()" class="btn btn-outline-danger me-2"><i class="bi bi-box-arrow-in-right"></i> Signout</button>
+    </div>
+  </header>
+</div>

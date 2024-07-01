@@ -1,0 +1,321 @@
+<!--<app-nav-menu></app-nav-menu>-->
+<div class="container">
+  <div class="row mt-5">
+    <div class="col">
+
+    </div>
+    <div class="col-8 text-center">
+      <button (click)="wantProjects()" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#PM">
+        <i class="bi bi-file-post"></i> Project Managment
+      </button>
+      <button (click)="wantUser()" class="btn btn-outline-primary ms-3" data-bs-toggle="modal" data-bs-target="#UM">
+        <i class="bi bi-person-circle"></i> User Managment
+      </button>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal UMngmt-->
+<div class="modal fade" id="UM" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header text-end">
+        <h1 class="modal-title fs-5" id="UM">User Management</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--...-->
+        <div class="container">
+          <div class="row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#AU">
+                <i class="bi bi-plus-circle-fill"></i> Add User
+              </button>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <table class="table table-striped border shadow-sm">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Username</th>
+                  <th scope="col">Password</th>
+                  <th scope="col">Designation</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Action</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ul of userObj">
+                  <th scope="row">{{ul.userid}}</th>
+                  <td>{{ul.username}}</td>
+                  <td>{{ul.password}}</td>
+                  <td>{{ul.designation}}</td>
+                  <td>{{ul.role}}</td>
+                  <td>
+
+                    <button (click)="filterUserbyId(ul.userid)" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#EU"><i class="bi bi-pencil-fill"></i></button>
+                    <!--<button class="btn btn-outline-danger mt-3" data-bs-toggle="modal" data-bs-target="#DU"><i class="bi bi-x-circle-fill"></i></button>-->
+                    <button [disabled]="ul.role == 'admin'" (click)="deleteUser(ul.userid)" class="btn btn-outline-danger"><i class="bi bi-x-circle-fill"></i></button>
+
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- ... -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Understood</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal AddUser-->
+<div class="modal fade" id="AU" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="AU">Add User</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--...-->
+        <form>
+          <div class="mb-3 mt-3">
+            <label for="Input1" class="form-label">Username:</label>
+            <input type="text" class="form-control" id="Input1" placeholder="" name="username" [(ngModel)]="setUser.username">
+          </div>
+          <div class="mb-3 ">
+            <label for="Input1" class="form-label">Password:</label>
+            <input type="text" class="form-control" id="Input2" placeholder="" name="password" [(ngModel)]="setUser.password">
+          </div>
+          <div class="mb-3 ">
+            <label for="Input1" class="form-label">Designation:</label>
+            <select class="form-select" name="designation" [(ngModel)]="setUser.designation">
+              <option *ngFor="let dgl of desigArr">
+                {{dgl}}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3 ">
+            <label for="Input1" class="form-label">Role:</label>
+
+            <select class="form-select" name="role" [(ngModel)]="setUser.role">
+              <option *ngFor="let rl of roleArr">
+                {{rl}}
+              </option>
+            </select>
+          </div>
+        </form>
+        <!-- ... -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#UM">Back</button>
+        <button (click)="setUsr(setUser)" type="button" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal EditUser-->
+<div class="modal fade" id="EU" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="EU">Edit User</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--...-->
+        <form>
+          <div class="mb-3 mt-3">
+            <label for="Input1" class="form-label">Username:</label>
+            <input type="text" class="form-control" id="Input1" placeholder="" name="username" [(ngModel)]="updateUser.username">
+          </div>
+          <div class="mb-3 ">
+            <label for="Input1" class="form-label">Password:</label>
+            <input type="text" class="form-control" id="Input2" placeholder="" name="password" [(ngModel)]="updateUser.password">
+          </div>
+          <div class="mb-3 ">
+            <label for="Input1" class="form-label">Designation:</label>
+            <select class="form-select" name="designation" [(ngModel)]="updateUser.designation">
+              <option *ngFor="let dgl of desigArr">
+                {{dgl}}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3 ">
+            <label for="Input1" class="form-label">Role:</label>
+
+            <select class="form-select" name="role" [(ngModel)]="updateUser.role">
+              <option *ngFor="let rl of roleArr">
+                {{rl}}
+              </option>
+            </select>
+          </div>
+        </form>
+        <!-- ... -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#UM">Back</button>
+        <button (click)="updateUsr(updateUser)" type="button" class="btn btn-primary">Submit Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal DeleteUser-->
+<div class="modal fade" id="DU" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="DU">Delete User</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--...-->
+        <h5>Are you sure?</h5>
+        <!-- ... -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal PMngmt-->
+<div class="modal fade" id="PM" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="PM">Project Management</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--...-->
+        <div class="container">
+          <div class="row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#AP">
+                <i class="bi bi-plus-circle-fill"></i> Add Project
+              </button>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <table class="table table-striped border shadow-sm">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Project</th>
+                  <th scope="col">Action</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pl of projectObj">
+                  <th scope="row">{{pl.projectid}}</th>
+                  <td>{{pl.project}}</td>
+                  <td>
+
+                    <button (click)="filterProjectbyId(pl.projectid)" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#EP"><i class="bi bi-pencil-fill"></i></button>
+                    <button (click)="deleteProject(pl.projectid)" class="btn btn-outline-danger ms-2"><i class="bi bi-x-circle-fill"></i></button>
+
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <!-- ... -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Understood</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal AddProject-->
+<div class="modal fade" id="AP" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="AP">Add Project</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--...-->
+        <form>
+          <div class="mb-3 mt-3">
+            <label for="Input1" class="form-label">Project Name:</label>
+            <input type="text" class="form-control" id="Input3" placeholder="" name="project" [(ngModel)]="setProject.project">
+          </div>
+        </form>
+        <!-- ... -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#PM">Back</button>
+        <button (click)="setProJect(setProject)" type="button" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal EditProject -->
+<div class="modal fade" id="EP" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="EP">Edit Project</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--...-->
+        <form>
+          <div class="mb-3 mt-3">
+            <label for="Input1" class="form-label">Project Name:</label>
+            <input type="text" class="form-control" id="Input3" placeholder="" name="project" [(ngModel)]="updateProject.project">
+          </div>
+        </form>
+        <!-- ... -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#PM">Back</button>
+        <button (click)="updatePrj(updateProject)" type="button" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
