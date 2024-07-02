@@ -5,7 +5,6 @@ A project on Angular 13, .NET 6.0, PostgreSQL
 
 ## Description
 A Project on how PR's are managed in an organisation similar to Agile SDLC managment
-A Project on how PR's are managed in an organisation similar to Agile SDLC managment.
 
 The objective of the application is to track the resolution of a bug generated during the testing of an application.
 
